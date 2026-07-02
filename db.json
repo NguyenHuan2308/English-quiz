@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "123",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "username": "user1",
+      "password": "123",
+      "role": "user"
+    }
+  ],
+  "questions": [
+    {
+      "id": "1",
+      "text": "What ___ your name?",
+      "options": [
+        "is",
+        "are",
+        "am",
+        "be"
+      ],
+      "correctAnswer": "is"
+    },
+    {
+      "id": "2",
+      "text": "She ___ to school every day.",
+      "options": [
+        "go",
+        "goes",
+        "going",
+        "gone"
+      ],
+      "correctAnswer": "goes"
+    }
+  ],
+  "history": []
+}

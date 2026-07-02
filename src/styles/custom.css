@@ -1,0 +1,7 @@
+.bgLogin {
+    background-image: url('https://cybersamar-v2.vercel.app/img/pic2.png');
+    object-fit: cover;
+    /* background: linear-gradient(#e66465, #9198e5); */
+    height: 100vh;
+}
+
