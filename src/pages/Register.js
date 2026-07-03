@@ -66,7 +66,7 @@ function Register() {
     return (
         <>
             <Header />
-            <div className="bgLogin d-flex align-items-center">
+            <div className="bgImg d-flex align-items-center">
                 <Container>
                     <Row className="align-items-center">
                         <Col md={7}>

@@ -13,6 +13,20 @@
       "fullname": "Nguyễn Văn A",
       "password": "123",
       "role": "user"
+    },
+    {
+      "id": "3",
+      "username": "user2",
+      "fullname": "Nguyễn Văn B",
+      "password": "123",
+      "role": "user"
+    },
+    {
+      "id": "4",
+      "username": "user3",
+      "fullname": "Nguyễn Văn C",
+      "password": "123",
+      "role": "user"
     }
   ],
   "questions": [
