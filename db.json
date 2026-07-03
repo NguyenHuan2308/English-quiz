@@ -3,12 +3,14 @@
     {
       "id": "1",
       "username": "admin",
+      "fullname": "Admin",
       "password": "123",
       "role": "admin"
     },
     {
       "id": "2",
       "username": "user1",
+      "fullname": "Nguyễn Văn A",
       "password": "123",
       "role": "user"
     }
