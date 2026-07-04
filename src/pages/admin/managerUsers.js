@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Spinner, Alert, Container } from 'react-bootstrap';
+import { Table, Container } from 'react-bootstrap';
 import * as axios from 'axios';
 import Header from '../../components/header';
 import '../../styles/custom.css'
@@ -55,15 +55,15 @@ function ManagerUsers() {
     return (
         <>
             <Header />
-            <div className='bgAdmin'>
+            <div className='bgImg'>
                 <Container>
                     <h3 className="text-center pt-3 text-secondary">Danh Sách Người Dùng</h3>
                     <Table bordered hover responsive className="shadow-sm text-center align-middle mt-4 custom-table">
                         <thead>
                             <tr className='heading'>
                                 <th>No.</th>
-                                <th>Họ và tên</th>
-                                <th>Username</th>
+                                <th>Câu hỏi</th>
+                                <th>Đáp án</th>
                                 <th onClick={() => handleSort()} style={{ cursor: 'pointer', userSelect: 'none' }}>Số lần nộp bài</th>
                             </tr>
                         </thead>

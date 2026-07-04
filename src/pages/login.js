@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../styles/custom.css'
 import Header from "../components/header";
@@ -8,9 +8,9 @@ import Footer from "../components/footer,";
 
 function Login() {
     const [dataUsers, setDataUsers] = useState([]);
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -30,7 +30,11 @@ function Login() {
         const userExist = dataUsers.find(user => user.username === username && user.password === password);
         if (userExist) {
             localStorage.setItem('currentUser', JSON.stringify(userExist));
-            alert("Đăng nhập thành công!")
+            if(userExist.role === 'admin'){
+                navigate('/questions');
+            }else{
+                navigate('/quiz');
+            }
         } else {
             alert("Tài khoản hoặc mật khẩu không chính xác!")
         }

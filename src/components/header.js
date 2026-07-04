@@ -18,8 +18,8 @@ function Header() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mx-auto">
                         {currentUser && currentUser.role === 'admin' && (<span className="d-flex" style={{gap:'30px'}}>
-                            <Nav.Link as={Link} to="/users"> Quản lý User</Nav.Link>
                             <Nav.Link as={Link} to="/questions"> Quản lý Câu hỏi</Nav.Link>
+                            <Nav.Link as={Link} to="/users"> Quản lý User</Nav.Link>
                             <Nav.Link as={Link} to="/history">Lịch sử nộp bài</Nav.Link>
                         </span>)}
 
@@ -33,7 +33,7 @@ function Header() {
                     <Nav>
                         {currentUser && (
                             <NavDropdown title={`Xin chào, ${currentUser.fullname}`} id="user-dropdown" align="end">
-                                <NavDropdown.Item onClick={handleLogout} className="fw-bold">
+                                <NavDropdown.Item onClick={() => handleLogout()} className="fw-bold">
                                  Đăng xuất
                                 </NavDropdown.Item>
                             </NavDropdown>
