@@ -26,23 +26,28 @@ function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-
-        const userExist = dataUsers.find(user => user.username === username && user.password === password);
-        if (userExist) {
-            localStorage.setItem('currentUser', JSON.stringify(userExist));
-            if(userExist.role === 'admin'){
-                navigate('/questions');
-            }else{
-                navigate('/quiz');
-            }
+        const current = JSON.parse(localStorage.getItem('currentUser'));
+        if (current) {
+            if (current.role === 'user') navigate('/quiz')
+            else navigate('/questions')
         } else {
-            alert("Tài khoản hoặc mật khẩu không chính xác!")
+            const userExist = dataUsers.find(user => user.username === username && user.password === password);
+            if (userExist) {
+                localStorage.setItem('currentUser', JSON.stringify(userExist));
+                if (userExist.role === 'admin') {
+                    navigate('/questions');
+                } else {
+                    navigate('/quiz');
+                }
+            } else {
+                alert("Tài khoản hoặc mật khẩu không chính xác!")
+            }
         }
     }
 
     return (
         <>
-            <Header/>
+            <Header />
             <div className="bgImg d-flex align-items-center">
                 <Container>
                     <Row className="align-items-center">
@@ -95,7 +100,7 @@ function Login() {
                     </Row>
                 </Container>
             </div>
-            <Footer/>
+            <Footer />
         </>
 
     );

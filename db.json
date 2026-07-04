@@ -31,38 +31,244 @@
   ],
   "questions": [
     {
-      "text": "What ___ your name?",
+      "id": "1",
+      "text": "They ___ football at the moment.",
       "options": [
-        "is",
-        "are",
-        "am",
-        "be"
+        "play",
+        "plays",
+        "are playing",
+        "is playing"
       ],
-      "correctAnswer": "is",
-      "id": "1"
+      "correctAnswer": "are playing"
     },
     {
       "id": "2",
-      "text": "She ___ to school every day.",
+      "text": "I ___ a new car last week.",
       "options": [
-        "go",
-        "goes",
-        "going",
-        "gone"
+        "buy",
+        "bought",
+        "buying",
+        "buys"
       ],
-      "correctAnswer": "goes"
+      "correctAnswer": "bought"
     },
     {
-      "text": "Where ___ you from?",
+      "id": "3",
+      "text": "If it rains tomorrow, we ___ at home.",
       "options": [
-        "is",
-        "am",
-        "are",
-        "be"
+        "stay",
+        "will stay",
+        "stayed",
+        "would stay"
       ],
-      "correctAnswer": "are",
-      "id": "3"
+      "correctAnswer": "will stay"
+    },
+    {
+      "id": "4",
+      "text": "She is the ___ girl in our class.",
+      "options": [
+        "beautiful",
+        "more beautiful",
+        "most beautiful",
+        "beautifulest"
+      ],
+      "correctAnswer": "most beautiful"
+    },
+    {
+      "id": "5",
+      "text": "He has been living here ___ 2015.",
+      "options": [
+        "for",
+        "since",
+        "in",
+        "during"
+      ],
+      "correctAnswer": "since"
+    },
+    {
+      "id": "6",
+      "text": "___ you ever eaten sushi before?",
+      "options": [
+        "Do",
+        "Did",
+        "Have",
+        "Has"
+      ],
+      "correctAnswer": "Have"
+    },
+    {
+      "id": "7",
+      "text": "The book ___ by J.K. Rowling.",
+      "options": [
+        "was written",
+        "wrote",
+        "was write",
+        "is writing"
+      ],
+      "correctAnswer": "was written"
+    },
+    {
+      "id": "8",
+      "text": "This coffee is ___ hot for me to drink.",
+      "options": [
+        "too",
+        "enough",
+        "so",
+        "very"
+      ],
+      "correctAnswer": "too"
+    },
+    {
+      "id": "9",
+      "text": "You ___ wash your hands before eating.",
+      "options": [
+        "should",
+        "might",
+        "could",
+        "would"
+      ],
+      "correctAnswer": "should"
+    },
+    {
+      "id": "10",
+      "text": "He enjoys ___ books in his free time.",
+      "options": [
+        "read",
+        "reads",
+        "reading",
+        "to read"
+      ],
+      "correctAnswer": "reading"
+    },
+    {
+      "id": "11",
+      "text": "The man ___ is talking to our teacher is my uncle.",
+      "options": [
+        "which",
+        "who",
+        "whom",
+        "whose"
+      ],
+      "correctAnswer": "who"
+    },
+    {
+      "id": "12",
+      "text": "There are ___ apples in the fridge.",
+      "options": [
+        "any",
+        "much",
+        "some",
+        "a little"
+      ],
+      "correctAnswer": "some"
+    },
+    {
+      "id": "13",
+      "text": "We decided ___ a taxi because it was late.",
+      "options": [
+        "take",
+        "taking",
+        "to take",
+        "took"
+      ],
+      "correctAnswer": "to take"
+    },
+    {
+      "id": "14",
+      "text": "She speaks English very ___.",
+      "options": [
+        "good",
+        "well",
+        "best",
+        "better"
+      ],
+      "correctAnswer": "well"
+    },
+    {
+      "id": "15",
+      "text": "My father usually gets up ___ 6 o'clock.",
+      "options": [
+        "on",
+        "at",
+        "in",
+        "for"
+      ],
+      "correctAnswer": "at"
+    },
+    {
+      "id": "16",
+      "text": "___ it was raining, they went for a walk.",
+      "options": [
+        "Although",
+        "Because",
+        "Despite",
+        "However"
+      ],
+      "correctAnswer": "Although"
+    },
+    {
+      "id": "17",
+      "text": "I don't mind ___ you with your homework.",
+      "options": [
+        "help",
+        "to help",
+        "helping",
+        "helped"
+      ],
+      "correctAnswer": "helping"
+    },
+    {
+      "id": "18",
+      "text": "This is the hospital ___ I was born.",
+      "options": [
+        "which",
+        "where",
+        "when",
+        "there"
+      ],
+      "correctAnswer": "where"
+    },
+    {
+      "id": "19",
+      "text": "He drives much ___ than his brother.",
+      "options": [
+        "carefully",
+        "more carefully",
+        "careful",
+        "most carefully"
+      ],
+      "correctAnswer": "more carefully"
+    },
+    {
+      "id": "20",
+      "text": "You haven't seen my keys, ___ you?",
+      "options": [
+        "do",
+        "have",
+        "haven't",
+        "did"
+      ],
+      "correctAnswer": "have"
     }
   ],
-  "history": []
+  "history": [
+    {
+      "id": "1",
+      "userId": "2",
+      "score": "3/10",
+      "time": "01:42:55 5/7/2026"
+    },
+    {
+      "id": "2",
+      "userId": "2",
+      "score": "4/10",
+      "time": "01:46:39 5/7/2026"
+    },
+    {
+      "id": "3",
+      "userId": "2",
+      "score": "2/10",
+      "time": "01:46:51 5/7/2026"
+    }
+  ]
 }
