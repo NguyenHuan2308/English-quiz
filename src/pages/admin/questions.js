@@ -114,9 +114,9 @@ function ManagerQuestions() {
             <div className="bgImg">
                 <Container >
                     <h3 className="text-center pt-3 text-secondary">Danh sách câu hỏi</h3>
-                    <Button variant="info" size="sm" className="fw-bold mt-3" onClick={() => handleOpenAdd()}>
+                    <div className="text-end px-4 mt-5"><Button variant="info" size="sm" className="fw-bold mt-3 text-light" onClick={() => handleOpenAdd()}>
                         Thêm câu hỏi mới
-                    </Button>
+                    </Button></div>
                     <Table bordered hover responsive className="shadow-sm text-center align-middle mt-4 custom-table">
                         <thead>
                             <tr className='heading'>
@@ -143,13 +143,15 @@ function ManagerQuestions() {
                                     <td>
                                         <span className="badge bg-success fs-6 px-3">{ques.correctAnswer}</span>
                                     </td>
-                                    <td>
-                                        <Button variant="warning" size="sm" className="me-2 fw-bold" onClick={() => handleOpenEdit(ques)}>
-                                            Sửa
-                                        </Button>
-                                        <Button variant="secondary" size="sm" className="fw-bold" onClick={() => handleDelete(ques.id)}>
-                                            Xóa
-                                        </Button>
+                                    <td >
+                                        <div className="d-flex flex-column align-items-center" style={{ gap: '10px' }}>
+                                            <Button variant="warning" size="sm" className="fw-bold px-3" onClick={() => handleOpenEdit(ques)}>
+                                                Sửa
+                                            </Button>
+                                            <Button variant="secondary" size="sm" className="fw-bold px-3" onClick={() => handleDelete(ques.id)}>
+                                                Xóa
+                                            </Button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -157,24 +159,24 @@ function ManagerQuestions() {
                     </Table>
 
                     {/*===================== Modal Add ==========================  */}
-                    <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered>
+                    <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered dialogClassName="custom-modal">
                         <Modal.Header closeButton>
-                            <Modal.Title>Thêm câu hỏi</Modal.Title>
+                            <Modal.Title> <i class="fa-solid fa-square-plus"></i>Thêm câu hỏi</Modal.Title>
                         </Modal.Header>
                         <Form onSubmit={(e) => handleAddSubmit(e)}>
                             <Modal.Body>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="fw-bold">Nội dung câu hỏi</Form.Label>
+                                    <Form.Label className="fw-bold text-secondary">Nội dung câu hỏi</Form.Label>
                                     <Form.Control
                                         as="textarea" rows={2} required placeholder="Nhập câu hỏi ..."
                                         value={addFormData.text}
                                         onChange={(e) => setAddFormData({ ...addFormData, text: e.target.value })}
                                     />
                                 </Form.Group>
-                                <Row>
+                                <Row className="mb-3">
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án A: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án A: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={addFormData.answerA}
                                                 onChange={(e) => setAddFormData({ ...addFormData, answerA: e.target.value })}
@@ -183,7 +185,7 @@ function ManagerQuestions() {
                                     </Col>
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án B: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án B: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={addFormData.answerB}
                                                 onChange={(e) => setAddFormData({ ...addFormData, answerB: e.target.value })}
@@ -192,7 +194,7 @@ function ManagerQuestions() {
                                     </Col>
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án C: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án C: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={addFormData.answerC}
                                                 onChange={(e) => setAddFormData({ ...addFormData, answerC: e.target.value })}
@@ -201,7 +203,7 @@ function ManagerQuestions() {
                                     </Col>
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án D: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án D: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={addFormData.answerD}
                                                 onChange={(e) => setAddFormData({ ...addFormData, answerD: e.target.value })}
@@ -210,12 +212,26 @@ function ManagerQuestions() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Form.Group>
+                                    {/* <Form.Group>
                                         <Form.Label>Đáp án đúng</Form.Label>
                                         <Form.Control type="text" required placeholder="Nhập đáp án đúng"
                                             value={addFormData.correctAnswer}
                                             onChange={(e) => setAddFormData({ ...addFormData, correctAnswer: e.target.value })}
                                         />
+                                    </Form.Group> */}
+                                    <Form.Group className="mb-2">
+                                        <Form.Label className="fw-bold text-success">Đáp án chính xác</Form.Label>
+                                        <Form.Select
+                                            required
+                                            value={addFormData.correctAnswer}
+                                            onChange={(e) => setAddFormData({ ...addFormData, correctAnswer: e.target.value })}
+                                        >
+                                            <option value="">-- Chọn đáp án đúng --</option>
+                                            <option value={addFormData.answerA}>Đáp án A</option>
+                                            <option value={addFormData.answerB}>Đáp án B</option>
+                                            <option value={addFormData.answerC}>Đáp án C</option>
+                                            <option value={addFormData.answerD}>Đáp án D</option>
+                                        </Form.Select>
                                     </Form.Group>
                                 </Row>
                             </Modal.Body>
@@ -231,24 +247,24 @@ function ManagerQuestions() {
                     </Modal>
 
                     {/* =========================Modal Edit ========================= */}
-                    <Modal show={showEditModal} onHide={() => setShowEditModal(false)} size="lg" centered>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Sửa câu hỏi</Modal.Title>
+                    <Modal show={showEditModal} onHide={() => setShowEditModal(false)} size="lg" centered dialogClassName="custom-modal">
+                        <Modal.Header closeButton >
+                            <Modal.Title> <i class="fa-solid fa-pen-to-square"></i>Sửa câu hỏi</Modal.Title>
                         </Modal.Header>
                         <Form onSubmit={(e) => handleEditSubmit(e)}>
                             <Modal.Body>
                                 <Form.Group className="mb-3">
-                                    <Form.Label className="fw-bold">Nội dung câu hỏi</Form.Label>
+                                    <Form.Label className="fw-bold text-secondary">Nội dung câu hỏi</Form.Label>
                                     <Form.Control
                                         as="textarea" rows={2} required placeholder="Nhập câu hỏi ..."
                                         value={editFormData.text}
                                         onChange={(e) => setEditFormData({ ...editFormData, text: e.target.value })}
                                     />
                                 </Form.Group>
-                                <Row>
+                                <Row className="mb-2">
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án A: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án A: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={editFormData.answerA}
                                                 onChange={(e) => setEditFormData({ ...editFormData, answerA: e.target.value })}
@@ -257,7 +273,7 @@ function ManagerQuestions() {
                                     </Col>
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án B: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án B: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={editFormData.answerB}
                                                 onChange={(e) => setEditFormData({ ...editFormData, answerB: e.target.value })}
@@ -266,7 +282,7 @@ function ManagerQuestions() {
                                     </Col>
                                     <Col md={3}>
                                         <Form.Group>
-                                            <Form.Label>Đáp án C: </Form.Label>
+                                            <Form.Label className="fw-bold text-secondary">Đáp án C: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={editFormData.answerC}
                                                 onChange={(e) => setEditFormData({ ...editFormData, answerC: e.target.value })}
@@ -274,8 +290,8 @@ function ManagerQuestions() {
                                         </Form.Group>
                                     </Col>
                                     <Col md={3}>
-                                        <Form.Group>
-                                            <Form.Label>Đáp án D: </Form.Label>
+                                        <Form.Group className="mb-2">
+                                            <Form.Label className="fw-bold text-secondary">Đáp án D: </Form.Label>
                                             <Form.Control type="text" required placeholder="Nhập đáp án"
                                                 value={editFormData.answerD}
                                                 onChange={(e) => setEditFormData({ ...editFormData, answerD: e.target.value })}
@@ -284,12 +300,19 @@ function ManagerQuestions() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Form.Group>
-                                        <Form.Label>Đáp án đúng</Form.Label>
-                                        <Form.Control type="text" required placeholder="Nhập đáp án"
+                                    <Form.Group className="mb-2">
+                                        <Form.Label className="fw-bold text-success">Đáp án chính xác</Form.Label>
+                                        <Form.Select
+                                            required
                                             value={editFormData.correctAnswer}
                                             onChange={(e) => setEditFormData({ ...editFormData, correctAnswer: e.target.value })}
-                                        />
+                                        >
+                                            <option value="">-- Chọn đáp án đúng --</option>
+                                            <option value={editFormData.answerA}>Đáp án A</option>
+                                            <option value={editFormData.answerB}>Đáp án B</option>
+                                            <option value={editFormData.answerC}>Đáp án C</option>
+                                            <option value={editFormData.answerD}>Đáp án D</option>
+                                        </Form.Select>
                                     </Form.Group>
                                 </Row>
                             </Modal.Body>

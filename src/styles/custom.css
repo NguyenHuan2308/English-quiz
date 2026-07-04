@@ -11,6 +11,7 @@
     min-height: 90vh;
 }
 
+/* ================= Table ================= */
 .custom-table thead .heading th{
     background-color: #9198e520;
 }
@@ -21,6 +22,68 @@
 
 .custom-table tbody tr:nth-of-type(even) td{
     background-color: #ffffff
+}
+
+/*  ================ Modal ================ */
+
+.custom-modal .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.custom-modal .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ebedf0;
+    padding: 20px 24px;
+}
+
+.custom-modal .modal-title {
+    font-weight: 700;
+    color: #343a40;
+    font-size: 1.25rem;
+}
+
+.custom-modal .modal-body {
+    padding: 24px;
+    background-color: #fff;
+}
+
+.custom-modal .modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #ebedf0;
+    padding: 16px 24px;
+}
+
+/* Tối ưu ô nhập liệu (Inputs) */
+.custom-modal .form-label {
+    color: #495057;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+.custom-modal .form-control, 
+.custom-modal .form-select {
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-modal .form-control:focus,
+.custom-modal .form-select:focus {
+    border-color: #0dcaf0; /* Màu tương thích với nút Info của bạn */
+    box-shadow: 0 0 0 4px rgba(13, 202, 240, 0.15);
+}
+
+/* Các nút bấm trong modal */
+.custom-modal .btn {
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s;
 }
 
 

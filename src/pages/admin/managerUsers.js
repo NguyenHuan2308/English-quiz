@@ -62,8 +62,8 @@ function ManagerUsers() {
                         <thead>
                             <tr className='heading'>
                                 <th>No.</th>
-                                <th>Câu hỏi</th>
-                                <th>Đáp án</th>
+                                <th>Họ tên</th>
+                                <th>Tài khoản</th>
                                 <th onClick={() => handleSort()} style={{ cursor: 'pointer', userSelect: 'none' }}>Số lần nộp bài</th>
                             </tr>
                         </thead>
