@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import ManagerUsers from "./pages/admin/managerUsers";
 import ManagerQuestions from "./pages/admin/questions";
 import Quiz from "./pages/user/quiz";
+import History from "./pages/user/history";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
             <Route path="/users" element={<ManagerUsers />} />
             <Route path="/questions" element={<ManagerQuestions />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/history" element={<History />} />
         </Routes>
     );
 }

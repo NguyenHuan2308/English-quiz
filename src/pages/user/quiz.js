@@ -12,20 +12,20 @@ function Quiz() {
     const [history, setHistory] = useState([]);
     const [score, setScore] = useState("");
 
-    useEffect(() => {
-        const fetchQuestion = async () => {
-            try {
-                const res = await axios.get('http://localhost:9999/questions');
-                const his = await axios.get('http://localhost:9999/history');
-                setHistory(his.data)
-                const allQues = res.data;
-                const ques5 = [...allQues].sort(() => 0.5 - Math.random());
-                setQuestions(ques5.slice(0, 10));
-            } catch (error) {
-                console.log("Error: ", error);
-            }
-
+    const fetchQuestion = async () => {
+        try {
+            const res = await axios.get('http://localhost:9999/questions');
+            const his = await axios.get('http://localhost:9999/history');
+            setHistory(his.data)
+            const allQues = res.data;
+            const ques5 = [...allQues].sort(() => 0.5 - Math.random());
+            setQuestions(ques5.slice(0, 10));
+        } catch (error) {
+            console.log("Error: ", error);
         }
+
+    }
+    useEffect(() => {
         fetchQuestion();
     }, []);
 
@@ -78,9 +78,10 @@ function Quiz() {
 
     const handleResetQuiz = () => {
         setIsFinished(false);
-        setSelectedAnswers({}); 
+        setSelectedAnswers({});
         setCurrentIndex(0);
         setScore("");
+        fetchQuestion();
     };
     const currentQuestion = questions[currentIndex];
 
@@ -93,6 +94,7 @@ function Quiz() {
             <Header />
             <div className="bgImg">
                 <Container >
+                    <h1 className="text-secondary fw-bold fs-3 mt-5 text-center shadow-sm border-0 p-4">📝 BÀI THI</h1>
                     <fieldset disabled={isFinished} style={{ opacity: isFinished ? 0.8 : 1 }}>
                         <Row className="mt-5" >
                             <Col md={8}>

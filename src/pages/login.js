@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import '../styles/custom.css'
@@ -10,6 +10,7 @@ function Login() {
     const [dataUsers, setDataUsers] = useState([]);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [alertInfo, setAlertInfo] = useState({ show: false, message: '', variant: '' });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -34,13 +35,22 @@ function Login() {
             const userExist = dataUsers.find(user => user.username === username && user.password === password);
             if (userExist) {
                 localStorage.setItem('currentUser', JSON.stringify(userExist));
-                if (userExist.role === 'admin') {
-                    navigate('/questions');
-                } else {
-                    navigate('/quiz');
-                }
+                setAlertInfo({
+                    show: true,
+                    message: "Đăng nhập thành công!",
+                    variant: "success"
+                });
+                    if (userExist.role === 'admin') {
+                        navigate('/questions');
+                    } else {
+                        navigate('/quiz');
+                    }
             } else {
-                alert("Tài khoản hoặc mật khẩu không chính xác!")
+                setAlertInfo({
+                    show: true,
+                    message: "Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu.",
+                    variant: "danger"
+                });
             }
         }
     }
@@ -62,6 +72,15 @@ function Login() {
                             <Card className="formLogin">
                                 <Card.Body>
                                     <h3 className="text-center mb-4" style={{ color: '#e66465' }}>Đăng Nhập</h3>
+                                    {alertInfo.show && (
+                                        <Alert 
+                                            variant={alertInfo.variant} 
+                                            onClose={() => setAlertInfo({ ...alertInfo, show: false })} 
+                                            dismissible
+                                        >
+                                            {alertInfo.message}
+                                        </Alert>
+                                    )}
                                     <Form className="formLogin" onSubmit={(e) => handleLogin(e)}>
                                         <Form.Group className="mb-3" controlId="formBasicEmail">
                                             <Form.Label>Tài khoản</Form.Label>
