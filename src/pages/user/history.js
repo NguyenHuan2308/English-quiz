@@ -72,7 +72,7 @@ function History() {
         <>
             <Header />
             <div className="bgImg">
-                <Container className="mt-5">
+                <Container className="mt-5 p-5">
                     <Card className="shadow-sm border-0 p-4">
                         <Card.Title className="text-secondary fw-bold fs-3 mb-4 text-center">
                             📊 LỊCH SỬ LÀM BÀI THI
@@ -89,7 +89,7 @@ function History() {
                                 📭 Bạn chưa tham gia lượt thi nào. Hãy vào trang làm bài để thử sức nhé!
                             </Alert>
                         )}
-                        {!loading && !error && data.length === 0 && (
+                        {!loading && !error && data.length === 0 && userHistory.length > 0 && (
                             <Alert variant="info" className="text-center fs-5 py-4">
                                 📭 Không tìm thấy lịch sử phù hợp với bộ lọc.
                             </Alert>

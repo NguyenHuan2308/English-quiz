@@ -25,33 +25,38 @@ function Login() {
         fetchAllUsers();
     }, [])
 
-    const handleLogin = (e) => {
-        e.preventDefault();
+    useEffect(() => {
         const current = JSON.parse(localStorage.getItem('currentUser'));
         if (current) {
-            if (current.role === 'user') navigate('/quiz')
-            else navigate('/questions')
-        } else {
-            const userExist = dataUsers.find(user => user.username === username && user.password === password);
-            if (userExist) {
-                localStorage.setItem('currentUser', JSON.stringify(userExist));
-                setAlertInfo({
-                    show: true,
-                    message: "Đăng nhập thành công!",
-                    variant: "success"
-                });
-                    if (userExist.role === 'admin') {
-                        navigate('/questions');
-                    } else {
-                        navigate('/quiz');
-                    }
+            if (current.role === 'user') {
+                navigate('/quiz');
             } else {
-                setAlertInfo({
-                    show: true,
-                    message: "Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu.",
-                    variant: "danger"
-                });
+                navigate('/questions');
             }
+        }
+    }, [navigate]);
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        const userExist = dataUsers.find(user => user.username === username && user.password === password);
+        if (userExist) {
+            localStorage.setItem('currentUser', JSON.stringify(userExist));
+            setAlertInfo({
+                show: true,
+                message: "Đăng nhập thành công!",
+                variant: "success"
+            });
+            if (userExist.role === 'admin') {
+                navigate('/questions');
+            } else {
+                navigate('/quiz');
+            }
+        } else {
+            setAlertInfo({
+                show: true,
+                message: "Đăng nhập thất bại! Sai tài khoản hoặc mật khẩu.",
+                variant: "danger"
+            });
         }
     }
 
@@ -73,9 +78,9 @@ function Login() {
                                 <Card.Body>
                                     <h3 className="text-center mb-4" style={{ color: '#e66465' }}>Đăng Nhập</h3>
                                     {alertInfo.show && (
-                                        <Alert 
-                                            variant={alertInfo.variant} 
-                                            onClose={() => setAlertInfo({ ...alertInfo, show: false })} 
+                                        <Alert
+                                            variant={alertInfo.variant}
+                                            onClose={() => setAlertInfo({ ...alertInfo, show: false })}
                                             dismissible
                                         >
                                             {alertInfo.message}

@@ -1,4 +1,4 @@
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Form, Modal, Row, Spinner } from "react-bootstrap";
 import Footer from "../../components/footer,";
 import Header from "../../components/header";
 import { useEffect, useState } from "react";
@@ -11,23 +11,40 @@ function Quiz() {
     const [isFinished, setIsFinished] = useState(false);
     const [history, setHistory] = useState([]);
     const [score, setScore] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [alertInfo, setAlertInfo] = useState({ show: false, message: "", variant: "danger" });
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+    const showAlert = (message, variant = "danger") => {
+        setAlertInfo({ show: true, message, variant });
+        setTimeout(() => {
+            setAlertInfo({ show: false, message: "", variant: "danger" });
+        }, 4000);
+    };
 
     const fetchQuestion = async () => {
+        setLoading(true);
         try {
             const res = await axios.get('http://localhost:9999/questions');
             const his = await axios.get('http://localhost:9999/history');
-            setHistory(his.data)
+            setHistory(his.data);
             const allQues = res.data;
             const ques5 = [...allQues].sort(() => 0.5 - Math.random());
             setQuestions(ques5.slice(0, 10));
         } catch (error) {
             console.log("Error: ", error);
+            showAlert("❌ Không thể tải câu hỏi từ hệ thống!", "danger");
+        } finally {
+            setLoading(false);
         }
 
     }
+    
     useEffect(() => {
         fetchQuestion();
     }, []);
+
+
 
     const handleSelectAnswer = (answer) => {
         if (isFinished) return;
@@ -37,44 +54,47 @@ function Quiz() {
         });
     }
 
-    const handleQuizSubmit = async () => {
+    const handlePreSubmitCheck = () => {
         const answeredCount = Object.values(selectedAnswers).length;
         if (answeredCount < questions.length) {
-            alert(`⚠️ Bạn chưa hoàn thành bài thi! Bạn mới làm ${answeredCount}/${questions.length} câu. Vui lòng chọn đầy đủ đáp án trước khi nộp.`);
+            showAlert(`⚠️ Bạn chưa hoàn thành bài thi! Bạn mới làm ${answeredCount}/${questions.length} câu. Vui lòng chọn đầy đủ đáp án trước khi nộp.`, "warning");
             return;
         }
+        setShowConfirmModal(true);
+    };
 
-        if (window.confirm("Bạn có chắc chắn muốn nộp bài thi này không?")) {
-            let correctCount = 0;
-            questions.forEach((q, index) => {
-                if (selectedAnswers[index] === q.correctAnswer) {
-                    correctCount++;
-                }
-            });
+    const handleExecuteSubmit = async () => {
+        setShowConfirmModal(false); // Đóng modal ngay
 
-            setScore(`${correctCount}/${questions.length}`)
-            const submissionTime = new Date().toLocaleString('vi-VN');
-
-            const id = history.length > 0 ? Number(history[history.length - 1].id) + 1 : 1;
-
-            const payload = {
-                id: String(id),
-                userId: JSON.parse(localStorage.getItem('currentUser')).id,
-                score: `${correctCount}/${questions.length}`,
-                time: submissionTime
-            };
-
-            try {
-                const response = await axios.post('http://localhost:9999/history', payload);
-                setHistory(prevHistory => [...prevHistory, response.data]);
-                alert(`🎉 Nộp bài thành công!`);
-                setIsFinished(true);
-            } catch (error) {
-                console.error("Lỗi khi lưu kết quả thi:", error);
-                alert("❌ Nộp bài thất bại! Không thể kết nối hoặc lưu vào cơ sở dữ liệu.");
+        let correctCount = 0;
+        questions.forEach((q, index) => {
+            if (selectedAnswers[index] === q.correctAnswer) {
+                correctCount++;
             }
+        });
+
+        setScore(`${correctCount}/${questions.length}`);
+        const submissionTime = new Date().toLocaleString('vi-VN');
+        const id = history.length > 0 ? Number(history[history.length - 1].id) + 1 : 1;
+
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const payload = {
+            id: String(id),
+            userId: currentUser ? currentUser.id : "GUEST",
+            score: `${correctCount}/${questions.length}`,
+            time: submissionTime
+        };
+
+        try {
+            const response = await axios.post('http://localhost:9999/history', payload);
+            setHistory(prevHistory => [...prevHistory, response.data]);
+            showAlert(`🎉 Nộp bài thành công!`, "success");
+            setIsFinished(true);
+        } catch (error) {
+            console.error("Lỗi khi lưu kết quả thi:", error);
+            showAlert("❌ Nộp bài thất bại! Không thể kết nối hoặc lưu vào cơ sở dữ liệu.", "danger");
         }
-    }
+    };
 
     const handleResetQuiz = () => {
         setIsFinished(false);
@@ -85,16 +105,49 @@ function Quiz() {
     };
     const currentQuestion = questions[currentIndex];
 
+    if (loading) {
+        return (
+            <>
+                <Header />
+                <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: "60vh" }}>
+                    <Spinner animation="border" variant="primary" size="lg" className="mb-3" />
+                    <h5 className="text-secondary fw-semibold">Đang tải câu hỏi, vui lòng đợi...</h5>
+                </div>
+                <Footer />
+            </>
+        );
+    }
+
     if (!currentQuestion) {
-        return <div className="text-center mt-5">Đang tải câu hỏi, vui lòng đợi...</div>;
+        return (
+            <>
+                <Header />
+                <Container className="text-center mt-5 p-5">
+                    <Alert variant="warning">Không tìm thấy dữ liệu câu hỏi.</Alert>
+                </Container>
+                <Footer />
+            </>
+        );
     }
 
     return (
         <>
             <Header />
             <div className="bgImg">
-                <Container >
+                <Container className="p-5">
                     <h1 className="text-secondary fw-bold fs-3 mt-5 text-center shadow-sm border-0 p-4">📝 BÀI THI</h1>
+                    {alertInfo.show && (
+                        <Alert
+                            variant={alertInfo.variant}
+                            onClose={() => setAlertInfo({ ...alertInfo, show: false })}
+                            dismissible
+                            className="mt-3 sticky-top shadow-sm"
+                            style={{ top: "20px", zIndex: 1050 }}
+                        >
+                            {alertInfo.message}
+                        </Alert>
+                    )}
+
                     <fieldset disabled={isFinished} style={{ opacity: isFinished ? 0.8 : 1 }}>
                         <Row className="mt-5" >
                             <Col md={8}>
@@ -159,7 +212,7 @@ function Quiz() {
                                             </Button>
                                         ))}
                                     </Card.Body>
-                                    <Button variant="danger" size="lg" className="w-100 fw-bold py-2 shadow-sm" onClick={handleQuizSubmit}>
+                                    <Button variant="danger" size="lg" className="w-100 fw-bold py-2 shadow-sm" onClick={handlePreSubmitCheck}>
                                         📤 NỘP BÀI THI
                                     </Button>
 
@@ -231,6 +284,22 @@ function Quiz() {
                     </Row>
                 </Container>
             </div>
+            <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title className="fw-bold text-secondary">🔔 Xác nhận nộp bài</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p className="fs-5 mb-0">Bạn có chắc chắn muốn nộp bài thi này không? Hệ thống sẽ ghi nhận kết quả ngay sau khi xác nhận.</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+                        Hủy bỏ
+                    </Button>
+                    <Button variant="danger" className="fw-bold" onClick={handleExecuteSubmit}>
+                        Xác nhận nộp bài
+                    </Button>
+                </Modal.Footer>
+            </Modal>
             <Footer />
         </>
     );

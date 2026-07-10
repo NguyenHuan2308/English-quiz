@@ -111,10 +111,10 @@ function ManagerQuestions() {
     return (
         <>
             <Header />
-            <div className="bgImg">
-                <Container >
-                    <h3 className="text-center pt-3 text-secondary">Danh sách câu hỏi</h3>
-                    <div className="text-end px-4 mt-5"><Button variant="info" size="sm" className="fw-bold mt-3 text-light" onClick={() => handleOpenAdd()}>
+            <div className="bgImg p-5">
+                <Container className="mt-5 p-5">
+                    <h3 className="text-center text-secondary fs-2">Danh sách câu hỏi</h3>
+                    <div className="text-end px-4 mt-2"><Button variant="info" size="sm" className="fw-bold mt-3 text-light" onClick={() => handleOpenAdd()}>
                         Thêm câu hỏi mới
                     </Button></div>
                     <Table bordered hover responsive className="shadow-sm text-center align-middle mt-4 custom-table">

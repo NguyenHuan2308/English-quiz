@@ -55,9 +55,9 @@ function ManagerUsers() {
     return (
         <>
             <Header />
-            <div className='bgImg'>
-                <Container>
-                    <h3 className="text-center pt-3 text-secondary">Danh Sách Người Dùng</h3>
+            <div className='bgImg p-5'>
+                <Container className='mt-5 p-5'>
+                    <h3 className="text-center mb-4 text-secondary">Danh Sách Người Dùng</h3>
                     <Table bordered hover responsive className="shadow-sm text-center align-middle mt-4 custom-table">
                         <thead>
                             <tr className='heading'>

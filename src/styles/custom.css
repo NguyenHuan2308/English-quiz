@@ -1,3 +1,8 @@
+body {
+    padding-top: 30px;
+}
+
+
 .bgImg {
     background-image: url('https://cybersamar-v2.vercel.app/img/pic2.png');
     object-fit: cover;
