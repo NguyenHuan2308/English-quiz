@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import * as axios from 'axios';
 import Footer from "../components/footer,";
@@ -14,6 +14,7 @@ function Register() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
+    const [alertInfo, setAlertInfo] = useState({ show: false, message: '', variant: '' });
 
     useEffect(() => {
         const fetchAllUsers = async () => {
@@ -32,10 +33,21 @@ function Register() {
         e.preventDefault();
 
         const exist = dataUsers.find(user => user.username === userName);
-        if (exist) return alert(`Tài khoản ${userName} đã tồn tại!`)
+        if (exist) {
+            setAlertInfo({
+                show: true,
+                message: "Tài khoản đã tồn tại!",
+                variant: "danger"
+            })
+            return;
+        }
 
         if (password !== password2) {
-            alert("Mật khẩu nhập lại không trùng khớp!");
+            setAlertInfo({
+                show: true,
+                message: "Mật khẩu nhập lại không khớp",
+                variant: "warning"
+            })
             return;
         }
 
@@ -53,15 +65,29 @@ function Register() {
             // Gửi dữ liệu lên json-server
             const response = await axios.post('http://localhost:9999/users', data);
             setDataUsers([...dataUsers, response.data]);
+            setFullName("");
             setUserName('');
             setPassword('');
             setPassword2('');
 
-            alert("Đăng ký thành công!");
+            setAlertInfo({
+                show: true,
+                message: "Đăng kí tài khoản thành công!",
+                variant: "success"
+            })
         } catch (error) {
             console.error("Error: ", error);
         }
     }
+
+    useEffect(() => {
+        if (alertInfo.show) {
+            const timer = setTimeout(() => {
+                setAlertInfo(prev => ({ ...prev, show: false }));
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [alertInfo.show]);
 
     return (
         <>
@@ -80,6 +106,11 @@ function Register() {
                         <Col md={5}>
                             <Card className="formLogin" >
                                 <Card.Body>
+                                    {alertInfo.show && (
+                                        <Alert variant={alertInfo.variant} dismissible onClose={() => setAlertInfo({ ...alertInfo, show: false })}>
+                                            {alertInfo.message}
+                                        </Alert>
+                                    )}
                                     <h3 className="text-center mb-4" style={{ color: '#e66465' }}>Đăng kí tài khoản</h3>
                                     <Form className="formLogin" onSubmit={(e) => createUser(e)}>
                                         <Form.Group className="mb-3" controlId="formBasicEmail">

@@ -134,7 +134,7 @@ function Quiz() {
         <>
             <Header />
             <div className="bgImg">
-                <Container className="p-5">
+                <Container className="p-md-5">
                     <h1 className="text-secondary fw-bold fs-3 mt-5 text-center shadow-sm border-0 p-4">📝 BÀI THI</h1>
                     {alertInfo.show && (
                         <Alert

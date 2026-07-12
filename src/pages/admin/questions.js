@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, OverlayTrigger, Popover, Row, Table, Toast, ToastContainer } from "react-bootstrap";
 import Header from "../../components/header";
 import Footer from "../../components/footer,";
 
@@ -13,12 +13,19 @@ function ManagerQuestions() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [editFormData, setEditFormData] = useState({});
 
+    const [toast, setToast] = useState({ show: false, message: "", variant: "success" });
+
+    const showToastMessage = (message, variant = "success") => {
+        setToast({ show: true, message, variant });
+    };
+
     const fetchQuestions = async () => {
         try {
             const res = await axios.get('http://localhost:9999/questions');
             setQuestions(res.data);
         } catch (error) {
             console.log("Error: ", error);
+            showToastMessage("Không thể tải danh sách câu hỏi!", "danger");
         }
     }
 
@@ -66,11 +73,12 @@ function ManagerQuestions() {
             const res = await axios.post('http://localhost:9999/questions', newQuestion)
             if (res.status === 201) {
                 setShowAddModal(false);
+                showToastMessage("Thêm câu hỏi thành công!");
                 fetchQuestions();
             }
         } catch (error) {
             console.log("Error: ", error);
-
+            showToastMessage("Thêm câu hỏi thất bại!", "danger");
         }
     };
 
@@ -86,33 +94,38 @@ function ManagerQuestions() {
 
         try {
             await axios.put(`http://localhost:9999/questions/${editFormData.id}`, payload);
-            alert("Sửa thành công!");
+            showToastMessage("Cập nhật thành công!");
             setShowEditModal(false);
             fetchQuestions();
         } catch (error) {
             console.log("Error: ", error);
-
+            showToastMessage("Cập nhật thất bại!", "danger");
         }
 
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xóa câu hỏi này không?")) {
-            try {
-                await axios.delete(`http://localhost:9999/questions/${id}`);
-                alert("Xóa thành công!");
-                fetchQuestions();
-            } catch (err) {
-                alert("Xóa thất bại!");
-            }
+        try {
+            await axios.delete(`http://localhost:9999/questions/${id}`);
+            showToastMessage("Xóa câu hỏi thành công!", "success");
+            fetchQuestions();
+        } catch (err) {
+            showToastMessage("Xóa câu hỏi thất bại!", "danger");
         }
     };
 
     return (
         <>
             <Header />
-            <div className="bgImg p-5">
-                <Container className="mt-5 p-5">
+            {toast.show && (<ToastContainer position="top-end" className="p-5 position-fixed" style={{ zIndex: 9999 }}>
+                <Toast onClose={() => setToast({ ...toast, show: false })} show={toast.show} delay={3000} autohide bg={toast.variant}>
+                    <Toast.Body className="text-white fw-bold">
+                        {toast.variant === "success" ? "✅ " : "❌ "} {toast.message}
+                    </Toast.Body>
+                </Toast>
+            </ToastContainer>)}
+            <div className="bgImg p-md-5">
+                <Container className="mt-5 p-md-5">
                     <h3 className="text-center text-secondary fs-2">Danh sách câu hỏi</h3>
                     <div className="text-end px-4 mt-2"><Button variant="info" size="sm" className="fw-bold mt-3 text-light" onClick={() => handleOpenAdd()}>
                         Thêm câu hỏi mới
@@ -148,9 +161,27 @@ function ManagerQuestions() {
                                             <Button variant="warning" size="sm" className="fw-bold px-3" onClick={() => handleOpenEdit(ques)}>
                                                 Sửa
                                             </Button>
-                                            <Button variant="secondary" size="sm" className="fw-bold px-3" onClick={() => handleDelete(ques.id)}>
-                                                Xóa
-                                            </Button>
+                                            <OverlayTrigger trigger="click" placement="bottom" rootClose overlay={
+                                                <Popover id={`popover-delete-${ques.id}`}>
+                                                    <Popover.Header className="text-center fw-bold py-2">
+                                                        🗑️ Bạn chắc chắn xóa không!
+                                                    </Popover.Header>
+                                                    <Popover.Body className="bg-light p-3">
+                                                        <div className="d-flex justify-content-around" style={{ gap: '6px' }}>
+                                                            <Button variant="outline-secondary" size="md" style={{ fontSize: '16px' }} onClick={() => document.body.click()}>
+                                                                Hủy bỏ
+                                                            </Button>
+                                                            <Button variant="danger" size="md" className="fw-bold" style={{ fontSize: '16px' }} onClick={() => handleDelete(ques.id)}>
+                                                                Xóa ngay
+                                                            </Button>
+                                                        </div>
+                                                    </Popover.Body>
+                                                </Popover>
+                                            }>
+                                                <Button variant="secondary" size="sm" className="fw-bold px-3">
+                                                    Xóa
+                                                </Button>
+                                            </OverlayTrigger>
                                         </div>
                                     </td>
                                 </tr>

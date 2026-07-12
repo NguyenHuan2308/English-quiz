@@ -41,6 +41,17 @@ function History() {
         return Number(correct[0]);
     };
 
+    const parseCustomDate = (dateStr) => {
+        if (!dateStr) return new Date(0);
+
+        const [timePart, datePart] = dateStr.split(" ");
+        if (!timePart || !datePart) return new Date(0);
+
+        const [hours, minutes, seconds] = timePart.split(":").map(Number);
+        const [day, month, year] = datePart.split("/").map(Number);
+        return new Date(year, month - 1, day, hours, minutes, seconds);
+    };
+
     const handleSortAndFilter = () => {
         let data = [...userHistory];
 
@@ -53,13 +64,16 @@ function History() {
 
         data.sort((a, b) => {
             if (sortType === 'date-desc') {
-                return new Date(b.time) - new Date(a.time);
+                return parseCustomDate(b.time) - parseCustomDate(a.time);
             }
             if (sortType === "score-desc") {
                 return getScore(b.score) - getScore(a.score);
             }
             if (sortType === "score-asc") {
                 return getScore(a.score) - getScore(b.score);
+            }
+            if (sortType === "date-asc") {
+                return parseCustomDate(a.time) - parseCustomDate(b.time)
             }
             return 0;
         })
@@ -72,8 +86,8 @@ function History() {
         <>
             <Header />
             <div className="bgImg">
-                <Container className="mt-5 p-5">
-                    <Card className="shadow-sm border-0 p-4">
+                <Container className="mt-5 p-md-5">
+                    <Card className="shadow-sm border-0 p-md-4">
                         <Card.Title className="text-secondary fw-bold fs-3 mb-4 text-center">
                             📊 LỊCH SỬ LÀM BÀI THI
                         </Card.Title>
@@ -142,6 +156,7 @@ function History() {
                                         <Form.Label className="fw-semibold text-secondary">Sắp xếp theo:</Form.Label>
                                         <Form.Check
                                             type="radio"
+                                            id="sort-date-desc"
                                             label="Ngày giảm dần"
                                             name="sortGroup"
                                             checked={sortType === "date-desc"}
@@ -150,6 +165,16 @@ function History() {
                                         />
                                         <Form.Check
                                             type="radio"
+                                            id="sort-date-asc"
+                                            label="Ngày tăng dần"
+                                            name="sortGroup"
+                                            checked={sortType === "date-asc"}
+                                            onChange={() => setSortType("date-asc")}
+                                            className="mb-2"
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            id="sort-score-desc"
                                             label="Điểm giảm dần"
                                             name="sortGroup"
                                             checked={sortType === "score-desc"}
@@ -158,6 +183,7 @@ function History() {
                                         />
                                         <Form.Check
                                             type="radio"
+                                            id="sort-score-asc"
                                             label="Điểm tăng dần"
                                             name="sortGroup"
                                             checked={sortType === "score-asc"}
@@ -172,6 +198,7 @@ function History() {
                                         <Form.Label className="fw-semibold text-secondary">Trạng thái kết quả:</Form.Label>
                                         <Form.Check
                                             type="radio"
+                                            id="filter-all"
                                             label="Tất cả"
                                             name="statusGroup"
                                             checked={statusFilter === "all"}
@@ -180,6 +207,7 @@ function History() {
                                         />
                                         <Form.Check
                                             type="radio"
+                                            id="filter-pass"
                                             label="Đạt"
                                             name="statusGroup"
                                             checked={statusFilter === "pass"}
@@ -188,6 +216,7 @@ function History() {
                                         />
                                         <Form.Check
                                             type="radio"
+                                            id="filter-fail"
                                             label="Chưa đạt"
                                             name="statusGroup"
                                             id="filter-fail"
