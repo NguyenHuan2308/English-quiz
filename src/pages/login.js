@@ -49,7 +49,7 @@ function Login() {
             if (userExist.role === 'admin') {
                 navigate('/questions');
             } else {
-                navigate('/quiz');
+                navigate('/history');
             }
         } else {
             setAlertInfo({
